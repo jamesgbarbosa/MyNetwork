@@ -1,5 +1,8 @@
 <html>
 <head>
+    <r:require modules="application"/>
+    <r:require modules="bootstrap"/>
+    <r:require modules="bootstrap-responsive-css"/>
 	<meta name='layout' content='main'/>
 	<title><g:message code="springSecurity.login.title"/></title>
 	<style type='text/css' media='screen'>

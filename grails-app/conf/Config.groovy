@@ -96,3 +96,27 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.mynetwork.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.mynetwork.UserRole'
 grails.plugins.springsecurity.authority.className = 'com.mynetwork.Role'
+
+//Google Account Login Info
+gmail.email='james.barbosa@orangeandbronze.com'
+gmail.password='arrogance'
+
+grails.plugins.springsecurity.ui.encodePassword = false
+grails.plugins.springsecurity.ui.register.postRegisterUrl = '/'
+grails.plugins.springsecurity.ui.register.defaultRoleNames = ['ROLE_USER']
+grails.plugins.springsecurity.ui.password.validationRegex = ".+?"
+grails.plugins.springsecurity.ui.password.minLength = 8
+grails.plugins.springsecurity.ui.password.maxLength = 30
+
+grails {
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = gmail.email
+        password = gmail.password
+        props = ["mail.smtp.auth":"true",
+                "mail.smtp.socketFactory.port":"465",
+                "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                "mail.smtp.socketFactory.fallback":"false"]
+    }
+}

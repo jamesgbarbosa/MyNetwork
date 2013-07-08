@@ -71,10 +71,10 @@
                         </uploader:uploader>
                     </div>
                     <table>
-                        <tr><td>Gender:</td><td><g:select from="${['MALE', 'FEMALE']}" name="gender" value="${user.profile.gender?.id ?: 'MALE'}" class="input-small"/></td><td>Born:</td><td><g:select from="${(1900..2010).reverse()}" name="yearBorn" value="${user.profile.yearBorn ?: 1980}" class="input-small"/></td></tr>
-                        <tr><td>Country:</td><td colspan="3"><g:textField name="country" value="${user.profile.country}"/></td></tr>
-                        <tr><td>Town:</td><td colspan="3"><g:textField name="town" value="${user.profile.town}"/></td></tr>
-                        %{--<tr><td>Info:</td><td colspan="3"><g:textArea name="info" value="${user.profile.info}"/></td></tr>--}%
+                        <tr><td>Gender:</td><td><g:select from="${['MALE', 'FEMALE']}" name="profile.gender" value="${user.profile.gender?.id ?: 'MALE'}" class="input-small"/></td><td>Born:</td><td><g:select from="${(1900..2010).reverse()}" name="profile.yearBorn" value="${user.profile.yearBorn ?: 1980}" class="input-small"/></td></tr>
+                        <tr><td>Country:</td><td colspan="3"><g:textField name="profile.country" value="${user.profile.country}"/></td></tr>
+                        <tr><td>Town:</td><td colspan="3"><g:textField name="profile.town" value="${user.profile.town}"/></td></tr>
+                        <tr><td>Info:</td><td colspan="3"><g:textArea name="profile.info" cols="3" value="${user.profile.info}"/></td></tr>
                     </table>
                 </div>
 
