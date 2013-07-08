@@ -25,7 +25,13 @@ class UserController {
     @Secured(['IS_AUTHENTICATED_FULLY'])
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [users: User.list(params), userInstanceTotal: User.count()]
+        def currentUser = springSecurityService.currentUser as User
+        def role = UserRole.findByUser(currentUser).role
+        if(role.authority == 'ROLE_ADMIN') {
+            [users: User.list(params), userInstanceTotal: User.count()]
+        } else {
+            [users: currentUser.following, userInstanceTotal: User.count()]
+        }
     }
 
     def create() {
@@ -51,7 +57,7 @@ class UserController {
             return
         }
 
-        [user: userInstance, loggedUserId: springSecurityService.currentUser?.id]
+        [user: userInstance, loggedUser: springSecurityService.currentUser as User]
     }
 
     def edit() {
@@ -134,6 +140,23 @@ class UserController {
         } catch (FileUploadException e) {
             log.error("Failed to upload file.", e)
             return render(text: [success:false] as JSON, contentType:'text/json')
+        }
+    }
+
+    @Secured(['ROLE_ADMIN', 'ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
+    def followToggle() {
+        User user = User.get(params.id)
+        User loggedUser = springSecurityService.currentUser as User
+        if (!user) {
+            render "User not found!"
+        }
+        Thread.sleep(1000L)
+        if (loggedUser?.following?.contains(user)) {
+            loggedUser.following.remove(user)
+            render "You are no longer following ${user.username}"
+        } else {
+            loggedUser.addToFollowing(user)
+            render "You are now following ${user.username}"
         }
     }
 

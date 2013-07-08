@@ -7,10 +7,10 @@
                 <span class="icon-bar"></span>
             </a>
 
-<g:link controller="user" class="brand"><g:img dir="images" file="grails_logo.png" alt="MyNetwork" style="height: 30px"/></g:link>
+<g:link uri="/" class="brand"><g:img dir="images" file="grails_logo.png" alt="MyNetwork" style="height: 30px"/></g:link>
             <div class="nav-collapse collapse">
                 <ul class="nav nav-pills">
-                    <li <g:if test="${params.controller == 'user'}">class="active"</g:if>><g:link controller="user">Users</g:link></li>
+                    <li <g:if test="${params.controller == 'user'}">class="active"</g:if>><g:link controller="user">Friends</g:link></li>
                     <sec:ifAnyGranted roles="ROLE_ADMIN"><li><g:link controller="securityInfo" action="config"><i class="icon-wrench"></i> Administration</g:link></li></sec:ifAnyGranted>
                 </ul>
                 <div class="pull-right" style="line-height: 38px;">

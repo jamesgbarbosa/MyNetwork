@@ -13,14 +13,28 @@ class BootStrap {
         def admin
         Profile adminProfile = new Profile(country: 'PH', email: 'james@admin.com').save(failOnError: true)
 
-        if (!(admin = User.findByUsername('Admin'))) {
+        def user
+        Profile userProfile = new Profile(country: 'PH', email: 'james@user.com').save(failOnError: true)
+        if (!(admin = User.findByUsername('admin'))) {
 
             admin = new User(username: "admin", email: "reptst@gmail.com", password: "admin", enabled: true)
             admin.profile = adminProfile
             admin.save(failOnError: true)
         }
+
+        if (!(user = User.findByUsername('user'))) {
+
+            user = new User(username: "user", email: "user@gmail.com", password: "user", enabled: true)
+            user.profile = userProfile
+            user.addToFollowing(admin)
+            user.save(failOnError: true)
+        }
+
         if (!admin?.authorities?.contains(adminRole)) {
             UserRole.create admin, adminRole
+        }
+        if (!user?.authorities?.contains(userRole)) {
+            UserRole.create user, userRole
         }
     }
     def destroy = {
