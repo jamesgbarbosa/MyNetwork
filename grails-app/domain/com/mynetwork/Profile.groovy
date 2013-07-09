@@ -4,7 +4,7 @@ import com.mynetwork.Gender
 class Profile {
     static belongsTo = User
 
-    String email
+
     String country
     String town
     Gender gender
@@ -15,7 +15,6 @@ class Profile {
     String avatarType
 
     static constraints = {
-        email(blank: false, maxSize: 50, email: true)
         country(nullable: true, maxSize: 60)
         town(nullable: true, maxSize: 60)
         gender(nullable: true)

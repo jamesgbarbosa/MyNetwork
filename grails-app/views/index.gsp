@@ -82,8 +82,34 @@
 				}
 			}
 		</style>
+        <g:javascript>
+            function onSubmit(text) {
+            }
+
+        </g:javascript>
 	</head>
 	<body>
+    <div class="row">
+        <g:form class="well span8" action="save" controller="post">
+            <sec:ifLoggedIn>
+                <h4>What's on your mind?</h4>
+                <g:textArea name="text" placeholder="Enter text..." class="input-block-level"/><br />
+                <div class="controls">
+                    <g:submitToRemote controller="user" action="addPost" id="${user.id}" update="posts"
+                                  class="btn btn-primary followBtn" value="Save" onComplete="onSubmit('ge')">
+                    </g:submitToRemote>
 
+                    %{--<g:submitButton name="Save" class="btn btn-primary" />--}%
+                </div>
+            </sec:ifLoggedIn>
+            <sec:ifNotLoggedIn>
+                <h4>Please <g:link controller="login" action="auth">Log in</g:link> to contribute to this community!</h4>
+            </sec:ifNotLoggedIn>
+        </g:form>
+    </div>
+
+    <div id="posts">
+        <g:render template="/common/posts"/>
+    </div>
 	</body>
 </html>

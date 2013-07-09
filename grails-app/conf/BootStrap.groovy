@@ -1,3 +1,4 @@
+import com.mynetwork.Post
 import com.mynetwork.User
 import com.mynetwork.Role
 import com.mynetwork.UserRole
@@ -22,11 +23,16 @@ class BootStrap {
             admin.save(failOnError: true)
         }
 
+        Post post1 = new Post(text: "Hello World", dateCreated: new Date())
+        Post post2 = new Post(text: "Hello James", dateCreated: new Date())
+
         if (!(user = User.findByUsername('user'))) {
 
             user = new User(username: "user", email: "user@gmail.com", password: "user", enabled: true)
             user.profile = userProfile
             user.addToFollowing(admin)
+            user.addToPosts(post1)
+            user.addToPosts(post2)
             user.save(failOnError: true)
         }
 

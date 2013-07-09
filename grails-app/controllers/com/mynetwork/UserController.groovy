@@ -72,7 +72,6 @@ class UserController {
     }
 
     def update() {
-        def x = params
         def userInstance = User.get(params.id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
@@ -141,6 +140,29 @@ class UserController {
             log.error("Failed to upload file.", e)
             return render(text: [success:false] as JSON, contentType:'text/json')
         }
+    }
+
+    def addPost = { Post post ->
+        def user = User.get(params.id)
+
+        User.withTransaction { status ->
+
+            post.dateCreated = new Date()
+
+            user.addToPosts(post)
+            user.save(flush: true)
+        }
+
+        TreeSet<Post> posts = new TreeSet<Post>()
+        posts.addAll(user.posts)
+
+        user.following.each {
+
+            posts.addAll(it.posts)
+
+        }
+
+        render(template: "/common/posts", model:[posts:posts])
     }
 
     @Secured(['ROLE_ADMIN', 'ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])

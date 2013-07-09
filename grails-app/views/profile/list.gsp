@@ -24,8 +24,6 @@
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="email" title="${message(code: 'profile.email.label', default: 'Email')}" />
-					
 						<g:sortableColumn property="country" title="${message(code: 'profile.country.label', default: 'Country')}" />
 					
 						<g:sortableColumn property="town" title="${message(code: 'profile.town.label', default: 'Town')}" />
@@ -41,8 +39,6 @@
 				<tbody>
 				<g:each in="${profileInstanceList}" status="i" var="profileInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${profileInstance.id}">${fieldValue(bean: profileInstance, field: "email")}</g:link></td>
 					
 						<td>${fieldValue(bean: profileInstance, field: "country")}</td>
 					
