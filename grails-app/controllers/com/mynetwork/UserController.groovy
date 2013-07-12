@@ -192,6 +192,7 @@ class UserController {
             render "You are no longer following ${user.username}"
         } else {
             loggedUser.addToFollowing(user)
+            user.addToFollowers(loggedUser)
             render "You are now following ${user.username}"
         }
     }

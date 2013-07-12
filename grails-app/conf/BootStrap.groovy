@@ -16,6 +16,27 @@ class BootStrap {
 
         def user
         Profile userProfile = new Profile(country: 'PH', email: 'james@user.com').save(failOnError: true)
+
+        def james
+        Profile jamesProfile = new Profile(country: 'PH', email: 'james@james.com').save(failOnError: true)
+
+        def podferio
+        Profile podferioProfile = new Profile(country: 'PH', email: 'james@podferio.com').save(failOnError: true)
+
+        if (!(james = User.findByUsername('james'))) {
+
+            james = new User(username: "james", email: "james@gmail.com", password: "james", enabled: true)
+            james.profile = jamesProfile
+            james.save(failOnError: true)
+        }
+
+        if (!(podferio = User.findByUsername('podferio'))) {
+
+            podferio = new User(username: "podferio", email: "podferio@gmail.com", password: "podferio", enabled: true)
+            podferio.profile = podferioProfile
+            podferio.save(failOnError: true)
+        }
+
         if (!(admin = User.findByUsername('admin'))) {
 
             admin = new User(username: "admin", email: "reptst@gmail.com", password: "admin", enabled: true)
@@ -41,6 +62,14 @@ class BootStrap {
         }
         if (!user?.authorities?.contains(userRole)) {
             UserRole.create user, userRole
+        }
+
+        if (!james?.authorities?.contains(userRole)) {
+            UserRole.create james, userRole
+        }
+
+        if (!podferio?.authorities?.contains(userRole)) {
+            UserRole.create podferio, userRole
         }
     }
     def destroy = {

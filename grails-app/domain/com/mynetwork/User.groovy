@@ -13,7 +13,7 @@ class User {
 	boolean passwordExpired
     Profile profile
 
-    static hasMany = [posts: Post, following: User]
+    static hasMany = [posts: Post, following: User, followers: User]
 
 	static constraints = {
 		username blank: false, unique: true
