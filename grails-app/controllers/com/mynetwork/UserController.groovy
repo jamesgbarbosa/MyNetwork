@@ -153,16 +153,17 @@ class UserController {
 
             user.addToPosts(post)
             user.save(flush: true)
+            rabbitSend 'myQueueName', "${params.id} ${post.id}"
+            TreeSet<Post> posts = new TreeSet<Post>()
+            posts.addAll(user.posts)
+
+            user.following.each {
+
+                posts.addAll(it.posts)
+
+            }
         }
-        rabbitSend 'myQueueName', "${params.id}"
-        TreeSet<Post> posts = new TreeSet<Post>()
-        posts.addAll(user.posts)
 
-        user.following.each {
-
-            posts.addAll(it.posts)
-
-        }
 
         render(template: "/common/posts", model:[posts:posts])
     }
@@ -179,6 +180,12 @@ class UserController {
         render(template: "/common/posts", model:[posts:posts])
     }
 
+    def getPost = {
+        TreeSet<Post> posts = new TreeSet<Post>()
+        posts.add(Post.get(params.id))
+        render(template: "/common/posts", model:[posts:posts, newpost:params.new ? "newpost" : null])
+    }
+
     @Secured(['ROLE_ADMIN', 'ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def followToggle() {
         User user = User.get(params.id)
@@ -189,6 +196,7 @@ class UserController {
         Thread.sleep(1000L)
         if (loggedUser?.following?.contains(user)) {
             loggedUser.following.remove(user)
+            user.followers.remove(loggedUser)
             render "You are no longer following ${user.username}"
         } else {
             loggedUser.addToFollowing(user)
