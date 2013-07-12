@@ -25,12 +25,16 @@
 
         <div class="main">
             <div class="container">
-                <g:layoutBody/>
+                <div class="span9">
+                    <g:render template="/common/messages"/>
+                    <g:layoutBody/>
+                </div>
+
             </div>
 
         </div>
 
-        <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
+
         <r:layoutResources />
 	</body>
 </html>

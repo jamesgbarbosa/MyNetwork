@@ -18,11 +18,8 @@
 		</div>
 		<div id="show-profile" class="content scaffold-show" role="main">
 			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
 			<ol class="property-list profile">
-			
+
 				<g:if test="${profileInstance?.email}">
 				<li class="fieldcontain">
 					<span id="email-label" class="property-label"><g:message code="profile.email.label" default="Email" /></span>
