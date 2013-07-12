@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 	<head>
+        <r:require modules="grailsEvents"/>
 		<meta name="layout" content="main"/>
         <r:require modules="application"/>
         <r:require modules="bootstrap"/>
@@ -82,13 +83,43 @@
 				}
 			}
 		</style>
-        <g:javascript>
-            function onSubmit(text) {
-            }
 
-        </g:javascript>
+        <r:script>
+    $(document).ready(function () {
+      /*
+       Register a grailsEvents handler for this window, constructor can take a root URL,
+       a path to event-bus servlet and options. There are sensible defaults for each argument
+       */
+      window.grailsEvents = new grails.Events("${createLink(uri: '')}");
+
+//        var data = new Object();
+//
+//        data.userId = ${currentUser?.id}
+        %{--$('#${user.id}').click(function(){--}%
+             %{--grailsEvents.send('saveTodo', data); //will send data to server topic 'saveTodo'--}%
+        %{--});--}%
+
+        grailsEvents.on('savedTodo_'+${currentUser?.id}, function (data) {
+//        $('#test2').append(data.username)
+         $('#posts').fadeOut("fast").load('${createLink(uri: '/user/getPosts')}', function() {
+            $(this).fadeIn("fast")
+         });
+        });
+
+        %{--$('#posts').load('${createLink(uri: '/user/getPosts')}', function() {--}%
+        %{--});--}%
+
+
+    });
+        </r:script>
 	</head>
 	<body>
+    <div id="test">
+        TEST
+    </div>
+    <div id="test2">
+
+    </div>
     <div class="row">
         <g:form class="well span8" action="save" controller="post">
             <sec:ifLoggedIn>
@@ -96,7 +127,7 @@
                 <g:textArea name="text" placeholder="Enter text..." class="input-block-level"/><br />
                 <div class="controls">
                     <g:submitToRemote controller="user" action="addPost" id="${user.id}" update="posts"
-                                  class="btn btn-primary followBtn" value="Save" onComplete="onSubmit('ge')">
+                                  class="btn btn-primary followBtn" value="Save">
                     </g:submitToRemote>
 
                     %{--<g:submitButton name="Save" class="btn btn-primary" />--}%
@@ -107,7 +138,7 @@
             </sec:ifNotLoggedIn>
         </g:form>
     </div>
-
+    <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
     <div id="posts">
         <g:render template="/common/posts"/>
     </div>

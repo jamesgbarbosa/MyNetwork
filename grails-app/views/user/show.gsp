@@ -55,30 +55,7 @@
 
 
 
-//            jQuery(document).ready(function(){
-//                $(".followBtn").mousedown(function() {
-//                    onProcess = true;
-//                });
-//
-//                if(onProcess == false) // blur event is okay
-//                {
-//                    if($('.followBtn').text().trim() == "Unfollow") {
-//                        $('.followBtn').hover(
-//                            function () {
-//                                $(".followBtn").text("Unfollow")
-//                            },
-//                            function () {
-//                                $(".followBtn").text("Unfollow")
-//                            }
-//                        );
-//                    }
-//                }
-//
-//
-//            });
-
         </g:javascript>
-
 	</head>
 	<body>
     <div class="row">

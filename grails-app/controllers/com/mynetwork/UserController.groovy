@@ -1,5 +1,7 @@
 package com.mynetwork
 
+import grails.events.Listener
+import org.springframework.amqp.rabbit.connection.RabbitUtils
 import org.springframework.dao.DataIntegrityViolationException
 import grails.plugins.springsecurity.Secured
 import grails.converters.JSON
@@ -152,7 +154,7 @@ class UserController {
             user.addToPosts(post)
             user.save(flush: true)
         }
-
+        rabbitSend 'myQueueName', "${params.id}"
         TreeSet<Post> posts = new TreeSet<Post>()
         posts.addAll(user.posts)
 
@@ -162,6 +164,18 @@ class UserController {
 
         }
 
+        render(template: "/common/posts", model:[posts:posts])
+    }
+
+    def getPosts = {
+        def user = springSecurityService.getCurrentUser()
+        TreeSet<Post> posts = new TreeSet<Post>()
+        posts.addAll(user.posts)
+        user.following.each {
+
+            posts.addAll(it.posts)
+
+        }
         render(template: "/common/posts", model:[posts:posts])
     }
 
