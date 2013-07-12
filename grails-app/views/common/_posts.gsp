@@ -1,5 +1,5 @@
 <g:if test="${posts}">
-    <div class="row span8">
+    <div id="postDiv" class="row span8">
         <div class="well">
             <g:each in="${posts}">
                 <div class="well well-light">
