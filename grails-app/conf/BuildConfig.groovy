@@ -1,11 +1,15 @@
-grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.7
+grails.project.source.level = 1.7
+//grails.plugin.location.'platformCore' = '../platform-core'
+//grails.plugin.location.'eventsSi' = '../plugin-platform-project/grails-plugin-platform-incubator/events-si'
+//grails.plugin.location.'eventsPush' = '../plugin-platform-project/events-push'
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+grails.tomcat.nio = true
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
@@ -42,6 +46,11 @@ grails.project.dependency.resolution = {
         runtime ":resources:1.1.6"
         runtime ':twitter-bootstrap:2.3.2'
         runtime ":jquery:1.7.1"
+        runtime ":events-push:1.0.M3"
+        runtime(":coffeescript-resources:0.3.2"){
+            exclude 'resources'
+        }
+        runtime ":rabbitmq:1.0.0"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
         //runtime ":cached-resources:1.0"
