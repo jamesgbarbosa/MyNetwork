@@ -120,3 +120,15 @@ grails {
                 "mail.smtp.socketFactory.fallback":"false"]
     }
 }
+
+rabbitmq {
+    connectionfactory {
+        username = 'guest'
+        password = 'guest'
+        hostname = 'localhost'
+    }
+    queues = {
+        myQueueName()
+        myOtherQueueName autoDelete: false, durable: true, exclusive: false, arguments: [arg1: 'val1', arg2: 'val2']
+    }
+}
