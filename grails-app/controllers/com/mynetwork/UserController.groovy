@@ -145,6 +145,9 @@ class UserController {
     }
 
     def addPost = { Post post ->
+        if(post.text.isEmpty()) {
+            return
+        } else {
         def user = User.get(params.id)
 
         User.withTransaction { status ->
@@ -163,9 +166,8 @@ class UserController {
 
             }
         }
-
-
         render(template: "/common/posts", model:[posts:posts])
+        }
     }
 
     def getPosts = {

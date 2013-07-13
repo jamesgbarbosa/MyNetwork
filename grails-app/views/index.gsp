@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <r:require modules="grailsEvents"/>
     <meta name="layout" content="main"/>
@@ -109,9 +109,24 @@
              });
 
         });
-         $('#test').click(function(){
+        //SET limit
+        $('#counter').text(100)
+         if($('#text').val() == "") {
+             $('#${user.id}').attr('disabled',true)
+        }
+        $('#text').bind('keydown', function () {
+            var self = $(this);
 
-         });
+            clearTimeout(self.data('timeout'));
+            self.data('timeout', setTimeout(function() {
+                 if($('#text').val().trim() == "") {
+                    $('#${user.id}').attr('disabled',true)
+                 } else {
+                 $('#${user.id}').attr('disabled',false)
+                 }
+                 $('#counter').text(100 - $('#text').val().length)
+            }, 5));
+        });
 
     %{--$('#posts').fadeOut("fast").load('${createLink(uri: '/user/getPosts')}', function() {--}%
     %{--$(this).fadeIn("fast")--}%
@@ -122,17 +137,15 @@
     </r:script>
 </head>
 <body>
-<div id="test">
-    Test
-</div>
 <div class="row">
     <g:form class="well span8" action="save" controller="post">
         <sec:ifLoggedIn>
             <h4>What's on your mind?</h4>
-            <g:textArea name="text" placeholder="Enter text..." class="input-block-level"/><br />
+            <g:textArea rows="5" name="text" placeholder="Enter text..." class="input-block-level" style="resize: none" maxlength="100"/> <br />
+            <p class="pull-left text-counter" id="counter"/>
             <div class="controls">
-                <g:submitToRemote controller="user" action="addPost" id="${user.id}" update="posts"
-                                  class="btn btn-primary followBtn" value="Post">
+                <g:submitToRemote name="postButton" controller="user" action="addPost" id="${user.id}" update="posts"
+                                  class="btn btn-primary followBtn pull-right" value="Post">
                 </g:submitToRemote>
 
                 %{--<g:submitButton name="Save" class="btn btn-primary" />--}%
