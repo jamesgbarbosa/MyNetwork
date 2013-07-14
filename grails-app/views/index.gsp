@@ -91,50 +91,47 @@
        a path to event-bus servlet and options. There are sensible defaults for each argument
        */
       window.grailsEvents = new grails.Events("${createLink(uri: '')}");
-
-//        var data = new Object();
-//
-//        data.userId = ${currentUser?.id}
-    %{--$('#${user.id}').click(function(){--}%
-    %{--grailsEvents.send('saveTodo', data); //will send data to server topic 'saveTodo'--}%
-    %{--});--}%
-
-        grailsEvents.on('savedTodo_'+${currentUser?.id}, function (data) {
-            //TODO REMOVE TEMPORARY DIV
-            $('#temporary').hide()
-            $('#temporary').load('/MyNetwork/user/getPost?id='+data.as+'&new=true', function(data) {
-                 var new_div = $(data).hide();
-                $('#posts').prepend(new_div);
-                new_div.fadeIn("slow");
-             });
-
+            //Event fired when a user posted new entry.
+            // Entry posted by current user will be displayed
+            // simultaneously to the followers news feed in real time
+            grailsEvents.on('savedTodo_'+${currentUser?.id}, function (data) {
+                //TODO REMOVE TEMPORARY DIV
+                $('#temporary').hide()
+                $('#temporary').load('/MyNetwork/user/getPost?id='+data.as+'&new=true', function(data) {
+                     var new_div = $(data).hide();
+                    $('#posts').prepend(new_div);
+                    new_div.fadeIn("slow");
+                 });
+            });
         });
-        //SET limit
+    </r:script>
+    <g:javascript>
+        //Set limit
         $('#counter').text(100)
          if($('#text').val() == "") {
-             $('#${user.id}').attr('disabled',true)
+             $('#${user?.id}').attr('disabled',true)
         }
+        //Posting limit / check if there is text entered, else button is disabled.
         $('#text').bind('keydown', function () {
             var self = $(this);
 
             clearTimeout(self.data('timeout'));
             self.data('timeout', setTimeout(function() {
                  if($('#text').val().trim() == "") {
-                    $('#${user.id}').attr('disabled',true)
+                    $('#${user?.id}').attr('disabled',true)
                  } else {
-                 $('#${user.id}').attr('disabled',false)
+                 $('#${user?.id}').attr('disabled',false)
                  }
                  $('#counter').text(100 - $('#text').val().length)
             }, 5));
         });
-
-    %{--$('#posts').fadeOut("fast").load('${createLink(uri: '/user/getPosts')}', function() {--}%
-    %{--$(this).fadeIn("fast")--}%
-    %{--});--}%
-
-
-        });
-    </r:script>
+        // Event fired after successful posting of current user
+        function onCompletePosting() {
+            $('#temporary').hide()
+            $('#posts').prepend( $('#temporary  '));
+            $('#temporary').fadeIn("slow");
+        }
+    </g:javascript>
 </head>
 <body>
 <div class="row">
@@ -144,11 +141,9 @@
             <g:textArea rows="5" name="text" placeholder="Enter text..." class="input-block-level" style="resize: none" maxlength="100"/> <br />
             <p class="pull-left text-counter" id="counter"/>
             <div class="controls">
-                <g:submitToRemote name="postButton" controller="user" action="addPost" id="${user.id}" update="posts"
-                                  class="btn btn-primary followBtn pull-right" value="Post">
+                <g:submitToRemote name="postButton" controller="user" action="addPost" id="${user?.id}" update="temporary"
+                                  class="btn btn-primary followBtn pull-right" value="Post" onComplete="onCompletePosting()">
                 </g:submitToRemote>
-
-                %{--<g:submitButton name="Save" class="btn btn-primary" />--}%
             </div>
         </sec:ifLoggedIn>
         <sec:ifNotLoggedIn>
@@ -164,6 +159,7 @@
     </div>
 </div>
 <div id="temporary"></div>
+
 </body>
 
 </html>

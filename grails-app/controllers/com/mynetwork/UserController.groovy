@@ -158,15 +158,16 @@ class UserController {
             user.save(flush: true)
             rabbitSend 'myQueueName', "${params.id} ${post.id}"
             TreeSet<Post> posts = new TreeSet<Post>()
-            posts.addAll(user.posts)
-
-            user.following.each {
-
-                posts.addAll(it.posts)
-
-            }
+//            posts.addAll(user.posts)
+//
+//            user.following.each {
+//
+//                posts.addAll(it.posts)
+//
+//            }
+            posts.add(post)
         }
-        render(template: "/common/posts", model:[posts:posts])
+        render(template: "/common/posts", model:[posts:[post]])
         }
     }
 
