@@ -158,7 +158,7 @@ class UserController {
             user.save(flush: true)
             rabbitSend 'myQueueName', "${params.id} ${post.id}"
         }
-        render(template: "/common/posts", model:[posts:[post]])
+        render(template: "/common/posts", model:[posts:[post], newPost:true])
         }
     }
 
@@ -169,7 +169,6 @@ class UserController {
             try {
             def post = Post.get(params.id)
             post.delete(flush: true)
-            render(template: "/common/posts", model:[posts:post.user.posts])
             } catch(Exception e) {
                 //TODO Where to redirect when an error occur
                 redirect(action: "list", params: params)

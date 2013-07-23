@@ -127,10 +127,14 @@
         });
         // Event fired after successful posting of current user
         function onCompletePosting() {
-            $('#temporary').hide()
-            $('#posts').prepend( $('#temporary'));
-            $('#temporary').fadeIn("slow");
+            $('#posts').hide()
+            $('#posts').prepend( $("#temporary").find('#postDiv'));
+            $('#posts').fadeIn("slow");
         }
+            function onCompletePostDeletion(postId) {
+                var obj = $(postId)
+                obj.fadeOut("slow");
+            }
     </g:javascript>
 </head>
 <body>
@@ -154,7 +158,6 @@
 <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 <div class="span8">
     <div id="posts">
-        <div id="newPosts"></div>
         <g:render template="/common/posts"/>
     </div>
 </div>
