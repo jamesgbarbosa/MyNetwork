@@ -127,12 +127,9 @@
         });
         // Event fired after successful posting of current user
         function onCompletePosting() {
-            var target = $('#temporary').parentNode.parentNode
-            $('#temporary').innerHTML = ""
-            target.hide()
-            $('#posts').prepend( target);
-            target.fadeIn("slow");
-
+            $('#temporary').hide()
+            $('#posts').prepend( $('#temporary'));
+            $('#temporary').fadeIn("slow");
         }
     </g:javascript>
 </head>
@@ -158,7 +155,7 @@
 <div class="span8">
     <div id="posts">
         <div id="newPosts"></div>
-            <g:render template="/common/posts"/>
+        <g:render template="/common/posts"/>
     </div>
 </div>
 <div id="temporary"></div>

@@ -157,18 +157,30 @@ class UserController {
             user.addToPosts(post)
             user.save(flush: true)
             rabbitSend 'myQueueName', "${params.id} ${post.id}"
-            TreeSet<Post> posts = new TreeSet<Post>()
-//            posts.addAll(user.posts)
-//
-//            user.following.each {
-//
-//                posts.addAll(it.posts)
-//
-//            }
-            posts.add(post)
         }
         render(template: "/common/posts", model:[posts:[post]])
         }
+    }
+
+    def deletePost = {
+        if(params.id.isEmpty()) {
+            return
+        } else {
+            try {
+            def post = Post.get(params.id)
+            post.delete(flush: true)
+            render(template: "/common/posts", model:[posts:post.user.posts])
+            } catch(Exception e) {
+                //TODO Where to redirect when an error occur
+                redirect(action: "list", params: params)
+            }
+        }
+    }
+
+    def getPost = {
+        TreeSet<Post> posts = new TreeSet<Post>()
+        posts.add(Post.get(params.id))
+        render(template: "/common/posts", model:[posts:posts, newpost:params.new ? "newpost" : null])
     }
 
     def getPosts = {
@@ -181,12 +193,6 @@ class UserController {
 
         }
         render(template: "/common/posts", model:[posts:posts])
-    }
-
-    def getPost = {
-        TreeSet<Post> posts = new TreeSet<Post>()
-        posts.add(Post.get(params.id))
-        render(template: "/common/posts", model:[posts:posts, newpost:params.new ? "newpost" : null])
     }
 
     @Secured(['ROLE_ADMIN', 'ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])

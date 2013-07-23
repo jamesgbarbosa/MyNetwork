@@ -1,11 +1,13 @@
 package com.mynetwork
 
+import javax.servlet.http.Cookie
+
 class ApplicationFilters {
 
     def springSecurityService
 
     def filters = {
-        all(uri: "/") {
+        index(uri: "/") {
 
             after = { def models ->
                 def currentUser = springSecurityService.getCurrentUser() as User
@@ -25,5 +27,15 @@ class ApplicationFilters {
                 }
             }
          }
+
+        securityFilter(controller: '(login|logout)', action: '*', find:true, invert:true){
+            before = {
+                if (!springSecurityService.isLoggedIn()) {
+                    redirect(action:'auth',controller:'login')
+                }
+            }
+        }
     }
+
+
 }
