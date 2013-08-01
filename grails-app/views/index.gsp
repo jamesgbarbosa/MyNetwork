@@ -127,16 +127,19 @@
         });
         // Event fired after successful posting of current user
         function onCompletePosting() {
-            $('#temporary').hide()
-            $('#posts').prepend( $('#temporary'));
-            $('#temporary').fadeIn("slow");
+            $('#posts').hide()
+            $('#posts').prepend( $("#temporary").find('#postDiv'));
+            $('#posts').fadeIn("slow");
         }
-
+            function onCompletePostDeletion(postId) {
+                var obj = $(postId)
+                obj.fadeOut("slow");
+            }
     </g:javascript>
 </head>
 <body>
 <div class="row">
-    <g:form class="well span8" action="save" controller="post">
+    <g:form class="well span5 pull-left" action="save" controller="post" style="margin-left:100px">
         <sec:ifLoggedIn>
             <h4>What's on your mind?</h4>
             <g:textArea rows="5" name="text" placeholder="Enter text..." class="input-block-level" style="resize: none" maxlength="100"/> <br />
@@ -152,10 +155,9 @@
         </sec:ifNotLoggedIn>
     </g:form>
 </div>
-<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-<div class="span8">
+<div id="spinner" class="spinner" style="display:none;"></div>
+<div class="span7">
     <div id="posts">
-        <div id="newPosts"></div>
         <g:render template="/common/posts"/>
     </div>
 </div>

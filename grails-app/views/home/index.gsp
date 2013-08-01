@@ -138,31 +138,43 @@
     </g:javascript>
 </head>
 <body>
-<div class="row">
-    <g:form class="well span8" action="save" controller="post">
-        <sec:ifLoggedIn>
-            <h4>What's on your mind?</h4>
-            <g:textArea rows="5" name="text" placeholder="Enter text..." class="input-block-level" style="resize: none" maxlength="100"/> <br />
-            <p class="pull-left text-counter" id="counter"/>
-            <div class="controls">
-                <g:submitToRemote name="postButton" controller="user" action="addPost" id="${user?.id}" update="temporary"
-                                  class="btn btn-primary followBtn pull-right" value="Post" onComplete="onCompletePosting()">
-                </g:submitToRemote>
+<div class="colmask threecol">
+    <div class="colmid">
+        <div class="colleft">
+            <div class="col1">
+                <h4>News Feed</h4>
+                <div id="spinner" class="spinner" style="display:none;"></div>
+                <div id="posts">
+                    <g:render template="/common/posts"/>
+                </div>
             </div>
-        </sec:ifLoggedIn>
-        <sec:ifNotLoggedIn>
-            <h4>Please <g:link controller="login" action="auth">Log in</g:link> to contribute to this community!</h4>
-        </sec:ifNotLoggedIn>
-    </g:form>
-</div>
-<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-<div class="span8">
-    <div id="posts">
-        <g:render template="/common/posts"/>
+            <div class="col2">
+                    <g:form action="save" controller="post">
+                        <sec:ifLoggedIn>
+                            <h4>What's on your mind?</h4>
+                            <g:textArea rows="5" name="text" placeholder="Enter text..." class="input-block-level" style="resize: none" maxlength="100"/> <br />
+                            <p class="pull-left text-counter" id="counter"/>
+                            <div class="controls">
+                                <g:submitToRemote name="postButton" controller="user" action="addPost" id="${user?.id}" update="temporary"
+                                                  class="btn btn-primary followBtn pull-right" value="Post" onComplete="onCompletePosting()">
+                                </g:submitToRemote>
+                            </div>
+                        </sec:ifLoggedIn>
+                        <sec:ifNotLoggedIn>
+                            <h4>Please <g:link controller="login" action="auth">Log in</g:link> to contribute to this community!</h4>
+                        </sec:ifNotLoggedIn>
+                    </g:form>
+            </div>
+            <div class="col3">
+                <!-- Column 3 start -->
+                <h4>Activities</h4>
+                <h5></h5>
+
+            </div>
+        </div>
     </div>
 </div>
 <div id="temporary"></div>
-
 </body>
 
 </html>

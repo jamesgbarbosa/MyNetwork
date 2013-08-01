@@ -25,10 +25,7 @@
 
         <div class="main">
             <div class="container">
-                <div class="span9">
-                    <g:render template="/common/messages"/>
-                    <g:layoutBody/>
-                </div>
+            <g:layoutBody/>
 
             </div>
 

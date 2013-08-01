@@ -10,7 +10,7 @@
 
 <body>
 
-<div class="row">
+<div class="span5 row well-light">
 
     <g:if test='${emailSent}'>
         <h3><g:message code='spring.security.ui.register.sent'/></h3>
