@@ -28,8 +28,8 @@ class ApplicationFilters {
             }
          }
 
-        securityFilter(controller: '(login|logout)', action: '*', find:true, invert:true){
-            before = {
+        securityFilter(controller: '(login|logout|register)', action: '*', find:true, invert:true){
+            after = {
                 if (!springSecurityService.isLoggedIn()) {
                     redirect(action:'auth',controller:'login')
                 }
