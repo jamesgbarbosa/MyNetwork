@@ -21,7 +21,7 @@ body {
     margin-left: 0;
     padding-top: 30px;
     padding-bottom: 30px;
-    background: url('../images/bg3.png');
+    background: url('../images/bg2.png');
     background-color: rgba(0, 0, 0, 0.0);
 }
 
@@ -178,8 +178,22 @@ ul.qq-upload-list {
     margin-bottom: 1px;
 }
 
+.whitebg {
+    background: #ffffff;
+    padding: 10px 10px 10px 10px;
+}
+
 .newpost {
     background: #d6e9c6;
+}
+
+.thumbnailFrameSize {
+    height: 135px;
+}
+
+.avatarSize {
+    height: 102px;
+    width: 102px;
 }
 
 * {text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);}
